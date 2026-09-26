@@ -56,10 +56,13 @@ export function rentScore(mid: number, budget: number): number {
   return Math.max(0, 1 - (ratio - 1) / 0.3);
 }
 
-/** Close to 1 for short trips, 0.85 at the limit, 0 at double the limit. */
+/**
+ * Close to 1 for short trips, 0.6 at your limit, then falls fast to 0 at 1.5x the limit.
+ * Shorter trips clearly win, and areas over your limit drop down the list.
+ */
 export function commuteScore(minutes: number, max: number): number {
-  if (minutes <= max) return 1 - 0.15 * (minutes / max);
-  return Math.max(0, 0.85 * (1 - (minutes - max) / max));
+  if (minutes <= max) return 1 - 0.4 * (minutes / max);
+  return Math.max(0, 0.6 * (1 - (minutes - max) / (max * 0.5)));
 }
 
 /** Average of the chosen traits, turned from 1–5 into 0–1. Null if none chosen. */

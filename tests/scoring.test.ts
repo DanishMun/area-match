@@ -26,9 +26,12 @@ describe("rent", () => {
 });
 
 describe("commute", () => {
-  it("prefers shorter trips and drops to zero at double the limit", () => {
+  it("prefers shorter trips and drops to zero at 1.5x the limit", () => {
     expect(commuteScore(10, 30)).toBeGreaterThan(commuteScore(25, 30));
-    expect(commuteScore(60, 30)).toBe(0);
+    expect(commuteScore(45, 30)).toBe(0);
+  });
+  it("ranks an area just over the limit well below one inside it", () => {
+    expect(commuteScore(32, 30)).toBeLessThan(commuteScore(30, 30) - 0.05);
   });
   it("walks when the destination is very close", () => {
     const t = estimateTravel({ lat: 60.186, lon: 24.828, mode: "M" }, aalto);
@@ -55,6 +58,9 @@ describe("rankAreas", () => {
     const ranked = rankAreas(hel.areas, req, (a) => estimateTravel(a, aalto));
     expect(ranked[0].area.name).toBe("Otaniemi");
     expect(ranked).toHaveLength(hel.areas.length);
+    // Only 'nature' picked: a greener area over the commute limit must not beat the campus itself.
+    const natureOnly = rankAreas(hel.areas, { ...req, traits: ["nature"] }, (a) => estimateTravel(a, aalto));
+    expect(natureOnly[0].area.name).toBe("Otaniemi");
     for (let i = 1; i < ranked.length; i++) expect(ranked[i - 1].score).toBeGreaterThanOrEqual(ranked[i].score);
   });
 });
