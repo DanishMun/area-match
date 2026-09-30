@@ -8,4 +8,6 @@ export const TRAIT_LABELS: Record<TraitKey, string> = {
   family: "Family friendly",
   international: "International",
   shops: "Shops & services",
+  gym: "Gym & sports",
 };
+

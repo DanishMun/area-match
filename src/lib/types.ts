@@ -6,7 +6,7 @@ export type CityId = "hel" | "tre";
 export type Mode = "M" | "T" | "R" | "B";
 
 /** Lifestyle traits. Each area has a 1–5 rating for each one. */
-export type TraitKey = "quiet" | "nightlife" | "nature" | "water" | "family" | "international" | "shops";
+export type TraitKey = "quiet" | "nightlife" | "nature" | "water" | "family" | "international" | "shops"| "gym";
 
 export type Traits = Record<TraitKey, number>;
 

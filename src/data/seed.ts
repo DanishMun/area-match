@@ -7,7 +7,7 @@
 
 import type { Area, City, CityId, Destination, Mode, TraitKey, TransitLine } from "@/lib/types";
 
-const TRAIT_ORDER: TraitKey[] = ["quiet", "nightlife", "nature", "water", "family", "international", "shops"];
+const TRAIT_ORDER: TraitKey[] = ["quiet", "nightlife", "nature", "water", "family", "international", "shops", "gym"];
 
 type Row = [name: string, town: string, lat: number, lon: number, eurM2: number, mode: Mode, traits: number[], blurb: string];
 
@@ -35,45 +35,45 @@ function toDests(cityId: CityId, rows: [string, number, number, boolean][]): Des
 
 //               name                 town        lat      lon     €/m² mode  q n g w f i s
 const HEL: Row[] = [
-  ["Kamppi", "Helsinki", 60.1685, 24.931, 26, "M", [1, 5, 1, 2, 2, 5, 5], "The very centre. Shopping centre, metro and all buses at your door. Busy and loud."],
-  ["Punavuori", "Helsinki", 60.1605, 24.94, 26, "R", [2, 4, 2, 3, 2, 5, 4], "The Design District. Cafés, small shops and old stone buildings."],
-  ["Eira & Ullanlinna", "Helsinki", 60.159, 24.948, 28, "R", [4, 2, 3, 5, 4, 4, 3], "Quiet streets by the sea and Kaivopuisto park. The priciest part of town."],
-  ["Töölö", "Helsinki", 60.181, 24.923, 24, "R", [4, 3, 4, 3, 4, 4, 4], "Classic apartment blocks close to Töölönlahti bay and Sibelius park."],
-  ["Kallio", "Helsinki", 60.184, 24.95, 23, "M", [1, 5, 2, 2, 2, 4, 4], "Bars, cheap food and a young crowd. Lively day and night."],
-  ["Sörnäinen", "Helsinki", 60.187, 24.961, 22, "M", [2, 4, 2, 3, 2, 3, 4], "Next to Kallio, a bit cheaper. Metro stop and the seaside at Hanasaari."],
-  ["Kalasatama", "Helsinki", 60.1875, 24.978, 23, "M", [3, 3, 2, 4, 3, 4, 5], "New towers and the Redi mall. Modern flats right on the metro."],
-  ["Arabianranta", "Helsinki", 60.208, 24.979, 20, "R", [4, 2, 4, 4, 4, 3, 3], "Calm seaside area with a design school feel. Trams to the centre."],
-  ["Pasila", "Helsinki", 60.199, 24.933, 21, "T", [3, 2, 3, 1, 3, 3, 5], "The big rail hub and Tripla mall. Fast trains in every direction."],
-  ["Lauttasaari", "Helsinki", 60.159, 24.877, 23, "M", [4, 2, 4, 5, 5, 4, 3], "An island with beaches and its own metro stop. Popular with families."],
-  ["Jätkäsaari", "Helsinki", 60.158, 24.92, 24, "R", [3, 2, 2, 5, 4, 4, 3], "New harbour district. Seaside walks and ferries to Tallinn."],
-  ["Munkkiniemi", "Helsinki", 60.198, 24.877, 22, "R", [5, 1, 4, 4, 5, 3, 3], "Leafy and very quiet, close to Seurasaari island. Trams to town."],
-  ["Herttoniemi", "Helsinki", 60.195, 25.03, 20, "M", [4, 2, 5, 3, 4, 3, 4], "Green area on the metro line with forest trails and a seaside park."],
-  ["Kumpula", "Helsinki", 60.205, 24.962, 20, "R", [4, 2, 4, 1, 4, 3, 2], "Old wooden houses, garden plots and a science campus."],
-  ["Viikki", "Helsinki", 60.226, 25.015, 18, "B", [5, 1, 5, 2, 4, 3, 3], "A nature reserve and campus life. Quiet, lots of students."],
-  ["Vuosaari", "Helsinki", 60.209, 25.144, 17, "M", [4, 2, 5, 5, 4, 3, 4], "End of the metro line. Beaches, forest and lower rents."],
-  ["Malmi", "Helsinki", 60.251, 25.011, 17, "T", [3, 1, 3, 1, 3, 3, 4], "Local centre with a train station. Good value for money."],
-  ["Kontula", "Helsinki", 60.236, 25.082, 16, "M", [3, 2, 3, 1, 3, 4, 3], "Some of the lowest rents on the metro. A mixed, international area."],
-  ["Myllypuro", "Helsinki", 60.224, 25.077, 17, "M", [4, 1, 4, 1, 4, 3, 2], "Metropolia campus and forests. Quiet and affordable."],
-  ["Otaniemi", "Espoo", 60.186, 24.828, 25, "M", [4, 2, 4, 4, 2, 5, 2], "Aalto University campus. Student life, very international, metro to town."],
-  ["Tapiola", "Espoo", 60.176, 24.805, 23, "M", [4, 2, 4, 3, 5, 4, 5], "Garden city with a big mall and a cultural centre."],
-  ["Leppävaara", "Espoo", 60.219, 24.813, 19, "T", [3, 2, 3, 1, 4, 3, 5], "Sello mall and fast trains to Helsinki."],
-  ["Matinkylä", "Espoo", 60.159, 24.739, 19, "M", [3, 2, 3, 4, 4, 3, 5], "Iso Omena mall on the metro, close to the sea."],
-  ["Espoonlahti", "Espoo", 60.148, 24.656, 16, "M", [4, 1, 4, 4, 4, 3, 4], "New metro end station by the sea. Lower rents than central Espoo."],
-  ["Espoon keskus", "Espoo", 60.205, 24.656, 16, "T", [3, 1, 4, 1, 4, 3, 3], "Espoo's city hall area with trains to Helsinki."],
-  ["Tikkurila", "Vantaa", 60.292, 25.044, 19, "T", [3, 2, 3, 1, 4, 3, 4], "Vantaa's centre. The train reaches the airport in about 8 minutes."],
-  ["Myyrmäki", "Vantaa", 60.261, 24.854, 17, "T", [3, 2, 3, 1, 3, 4, 4], "Busy local centre with a Metropolia campus and ring rail trains."],
-  ["Aviapolis", "Vantaa", 60.297, 24.963, 20, "T", [3, 1, 2, 1, 3, 3, 5], "Next to the airport and Jumbo mall. Handy if you fly often."],
+  ["Kamppi", "Helsinki", 60.1685, 24.931, 26, "M", [1, 5, 1, 2, 2, 5, 5, 5], "The very centre. Shopping centre, metro and all buses at your door. Busy and loud."],
+  ["Punavuori", "Helsinki", 60.1605, 24.94, 26, "R", [2, 4, 2, 3, 2, 5, 4, 5], "The Design District. Cafés, small shops and old stone buildings."],
+  ["Eira & Ullanlinna", "Helsinki", 60.159, 24.948, 28, "R", [4, 2, 3, 5, 4, 4, 3, 5], "Quiet streets by the sea and Kaivopuisto park. The priciest part of town."],
+  ["Töölö", "Helsinki", 60.181, 24.923, 24, "R", [4, 3, 4, 3, 4, 4, 4, 5], "Classic apartment blocks close to Töölönlahti bay and Sibelius park."],
+  ["Kallio", "Helsinki", 60.184, 24.95, 23, "M", [1, 5, 2, 2, 2, 4, 4, 5], "Bars, cheap food and a young crowd. Lively day and night."],
+  ["Sörnäinen", "Helsinki", 60.187, 24.961, 22, "M", [2, 4, 2, 3, 2, 3, 4, 5], "Next to Kallio, a bit cheaper. Metro stop and the seaside at Hanasaari."],
+  ["Kalasatama", "Helsinki", 60.1875, 24.978, 23, "M", [3, 3, 2, 4, 3, 4, 5, 5], "New towers and the Redi mall. Modern flats right on the metro."],
+  ["Arabianranta", "Helsinki", 60.208, 24.979, 20, "R", [4, 2, 4, 4, 4, 3, 3, 5], "Calm seaside area with a design school feel. Trams to the centre."],
+  ["Pasila", "Helsinki", 60.199, 24.933, 21, "T", [3, 2, 3, 1, 3, 3, 5, 5], "The big rail hub and Tripla mall. Fast trains in every direction."],
+  ["Lauttasaari", "Helsinki", 60.159, 24.877, 23, "M", [4, 2, 4, 5, 5, 4, 3, 5], "An island with beaches and its own metro stop. Popular with families."],
+  ["Jätkäsaari", "Helsinki", 60.158, 24.92, 24, "R", [3, 2, 2, 5, 4, 4, 3, 5], "New harbour district. Seaside walks and ferries to Tallinn."],
+  ["Munkkiniemi", "Helsinki", 60.198, 24.877, 22, "R", [5, 1, 4, 4, 5, 3, 3, 5], "Leafy and very quiet, close to Seurasaari island. Trams to town."],
+  ["Herttoniemi", "Helsinki", 60.195, 25.03, 20, "M", [4, 2, 5, 3, 4, 3, 4, 5], "Green area on the metro line with forest trails and a seaside park."],
+  ["Kumpula", "Helsinki", 60.205, 24.962, 20, "R", [4, 2, 4, 1, 4, 3, 2, 5], "Old wooden houses, garden plots and a science campus."],
+  ["Viikki", "Helsinki", 60.226, 25.015, 18, "B", [5, 1, 5, 2, 4, 3, 3, 5], "A nature reserve and campus life. Quiet, lots of students."],
+  ["Vuosaari", "Helsinki", 60.209, 25.144, 17, "M", [4, 2, 5, 5, 4, 3, 4, 5], "End of the metro line. Beaches, forest and lower rents."],
+  ["Malmi", "Helsinki", 60.251, 25.011, 17, "T", [3, 1, 3, 1, 3, 3, 4, 5], "Local centre with a train station. Good value for money."],
+  ["Kontula", "Helsinki", 60.236, 25.082, 16, "M", [3, 2, 3, 1, 3, 4, 3, 4], "Some of the lowest rents on the metro. A mixed, international area."],
+  ["Myllypuro", "Helsinki", 60.224, 25.077, 17, "M", [4, 1, 4, 1, 4, 3, 2, 3], "Metropolia campus and forests. Quiet and affordable."],
+  ["Otaniemi", "Espoo", 60.186, 24.828, 25, "M", [4, 2, 4, 4, 2, 5, 2, 5], "Aalto University campus. Student life, very international, metro to town."],
+  ["Tapiola", "Espoo", 60.176, 24.805, 23, "M", [4, 2, 4, 3, 5, 4, 5, 3], "Garden city with a big mall and a cultural centre."],
+  ["Leppävaara", "Espoo", 60.219, 24.813, 19, "T", [3, 2, 3, 1, 4, 3, 5, 5], "Sello mall and fast trains to Helsinki."],
+  ["Matinkylä", "Espoo", 60.159, 24.739, 19, "M", [3, 2, 3, 4, 4, 3, 5, 5], "Iso Omena mall on the metro, close to the sea."],
+  ["Espoonlahti", "Espoo", 60.148, 24.656, 16, "M", [4, 1, 4, 4, 4, 3, 4, 5], "New metro end station by the sea. Lower rents than central Espoo."],
+  ["Espoon keskus", "Espoo", 60.205, 24.656, 16, "T", [3, 1, 4, 1, 4, 3, 3, 4], "Espoo's city hall area with trains to Helsinki."],
+  ["Tikkurila", "Vantaa", 60.292, 25.044, 19, "T", [3, 2, 3, 1, 4, 3, 4, 5], "Vantaa's centre. The train reaches the airport in about 8 minutes."],
+  ["Myyrmäki", "Vantaa", 60.261, 24.854, 17, "T", [3, 2, 3, 1, 3, 4, 4, 5], "Busy local centre with a Metropolia campus and ring rail trains."],
+  ["Aviapolis", "Vantaa", 60.297, 24.963, 20, "T", [3, 1, 2, 1, 3, 3, 5, 5], "Next to the airport and Jumbo mall. Handy if you fly often."],
 ];
 
 const TRE: Row[] = [
-  ["Keskusta", "Tampere", 61.498, 23.761, 18, "R", [2, 5, 2, 3, 2, 4, 5], "City centre between two lakes. Restaurants, shops and the tram."],
-  ["Tammela", "Tampere", 61.496, 23.778, 17, "R", [3, 3, 2, 2, 3, 4, 4], "Next to the railway station and market square. Easy everyday life."],
-  ["Kaleva", "Tampere", 61.497, 23.792, 17, "R", [4, 2, 3, 2, 4, 3, 4], "Calm blocks with parks, on the tram line to the hospital."],
-  ["Amuri", "Tampere", 61.5, 23.74, 17, "R", [4, 2, 3, 3, 3, 3, 3], "Old wooden-house museum block and quiet streets west of the centre."],
-  ["Pispala", "Tampere", 61.504, 23.705, 15, "B", [5, 2, 5, 5, 3, 3, 2], "Hillside of wooden houses between two lakes. Famous views and saunas."],
-  ["Hervanta", "Tampere", 61.45, 23.85, 14, "R", [3, 2, 4, 1, 3, 5, 4], "University campus town. Many international students, tram to the centre."],
-  ["Hatanpää", "Tampere", 61.485, 23.77, 16, "B", [4, 1, 4, 4, 4, 3, 3], "Lakeside park and an arboretum, a short ride south of the centre."],
-  ["Lielahti", "Tampere", 61.516, 23.68, 14, "R", [4, 1, 4, 4, 4, 2, 3], "Newer lakeside homes at the western end of the tram line."],
+  ["Keskusta", "Tampere", 61.498, 23.761, 18, "R", [2, 5, 2, 3, 2, 4, 5, 5], "City centre between two lakes. Restaurants, shops and the tram."],
+  ["Tammela", "Tampere", 61.496, 23.778, 17, "R", [3, 3, 2, 2, 3, 4, 4, 5], "Next to the railway station and market square. Easy everyday life."],
+  ["Kaleva", "Tampere", 61.497, 23.792, 17, "R", [4, 2, 3, 2, 4, 3, 4, 5], "Calm blocks with parks, on the tram line to the hospital."],
+  ["Amuri", "Tampere", 61.5, 23.74, 17, "R", [4, 2, 3, 3, 3, 3, 3, 5], "Old wooden-house museum block and quiet streets west of the centre."],
+  ["Pispala", "Tampere", 61.504, 23.705, 15, "B", [5, 2, 5, 5, 3, 3, 2, 5], "Hillside of wooden houses between two lakes. Famous views and saunas."],
+  ["Hervanta", "Tampere", 61.45, 23.85, 14, "R", [3, 2, 4, 1, 3, 5, 4, 5], "University campus town. Many international students, tram to the centre."],
+  ["Hatanpää", "Tampere", 61.485, 23.77, 16, "B", [4, 1, 4, 4, 4, 3, 3, 5], "Lakeside park and an arboretum, a short ride south of the centre."],
+  ["Lielahti", "Tampere", 61.516, 23.68, 14, "R", [4, 1, 4, 4, 4, 2, 3, 5], "Newer lakeside homes at the western end of the tram line."],
 ];
 
 const HEL_LINES: TransitLine[] = [

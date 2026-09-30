@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-export const TRAIT_KEYS = ["quiet", "nightlife", "nature", "water", "family", "international", "shops"] as const;
+export const TRAIT_KEYS = ["quiet", "nightlife", "nature", "water", "family", "international", "shops","gym"] as const;
 
 export const matchRequestSchema = z.object({
   city: z.enum(["hel", "tre"]),
