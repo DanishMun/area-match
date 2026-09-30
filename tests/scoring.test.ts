@@ -64,3 +64,19 @@ describe("rankAreas", () => {
     for (let i = 1; i < ranked.length; i++) expect(ranked[i - 1].score).toBeGreaterThanOrEqual(ranked[i].score);
   });
 });
+
+describe("gym trait", () => {
+  it("every area has a gym rating from 1 to 5", () => {
+    for (const city of SEED_CITIES) {
+      for (const area of city.areas) {
+        expect(area.traits.gym).toBeGreaterThanOrEqual(1);
+        expect(area.traits.gym).toBeLessThanOrEqual(5);
+      }
+    }
+  });
+
+  it("Kamppi gets full lifestyle points for gym", () => {
+    const kamppi = hel.areas.find((a) => a.name === "Kamppi")!;
+    expect(lifestyleScore(kamppi, ["gym"])).toBe(1);
+  });
+});
